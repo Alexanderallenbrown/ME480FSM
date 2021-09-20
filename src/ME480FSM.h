@@ -2,7 +2,7 @@
 /*!
  * @file ME480FSM.h
  *
- * @mainpage ME480 Library to help with the implimentation of Finite State Machines
+ * @mainpage ME480 Library to help with the implementation of Finite State Machines
  *
  * @section intro_sec Introduction
  *
