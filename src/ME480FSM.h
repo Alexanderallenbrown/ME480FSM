@@ -35,7 +35,7 @@
   increment or decrement boolean value in the update function changes from false to true. This 
   counter is particularly suited to counting state changes and mimics the action of the PLC counter.
   The counter can be reset by setting the reset boolean value to true.
-  The user can read the current preset, count and state of counting (CNT)
+  The user can read the current preset, count and status bit (CNT)
  */
 class RisingEdgeCounter
 {   //public functions and variables that can be accessed by user
@@ -50,7 +50,7 @@ class RisingEdgeCounter
         //variables that can be queried by main program:
         long preset;  ///<Sets/returns the number of counts that will trip the state of counting variable
         int count;    ///<Returns the current number of counts
-        bool CNT;     ///<State of counting, true if the number of counts is greater than, or equal to, the preset value
+        bool CNT;     ///<Status bit of counter; true if the number of counts is greater than, or equal to, the preset value
 
 
     //private variables are ones that can't be accessed by main program
@@ -90,7 +90,7 @@ class FSMTimer
         //variables that can be queried by main program:
         unsigned long duration; ///<Duration value of the timer in milliseconds
         unsigned long elapsed;  ///<Elapsed time that the timer has been counting
-        bool TMR;               ///<State of timing, true if elapsed time is greater than, or equal to, the duration value
+        bool TMR;               ///<Status bit of timer; true if elapsed time is greater than, or equal to, the duration value
 
     //private variables are ones that can't be accessed by main program
         //note that these variables only exists in the FSMTimer class so
@@ -128,7 +128,7 @@ public:
   //variables that can be queried by main program:
   unsigned long duration; ///<Duration value of the timer in milliseconds
   unsigned long elapsed;  ///<Elapsed time that the timer has been counting
-  bool TMR;               ///<State of timing, true if elapsed time is greater than, or equal to, the duration value
+  bool TMR;               ///<Status bit of timer; true if elapsed time is greater than, or equal to, the duration value
 
 //private variables are ones that can't be accessed by main program
     //note that these variables only exists in the FSMFastTimer class so
@@ -139,5 +139,79 @@ private:
   //no real need for the states to be known by main program
   bool state_Waiting;
   bool state_Timing;
+};
+
+/*!
+ @brief  This class impliments a quadrature based encoder attached to the Motor1 connector
+
+The FSMEncoder1 class supports a quadrature based encoder attached to the Motor1 connector.
+The number of counts can be accessed through the getCounts and getCountsAndReset functions.
+The velocity can be calculated using the get2CountDeltaT function that returns the amount of 
+time, in microseconds, while the sensor moved two counts. 
+*/
+class FSMEncoder1
+{//public functions and variables that can be accessed by user
+public:
+  // Constructor/destructor:
+  //must declare the class itself as public
+  FSMEncoder1(); //which motor control socket is being used
+  ~FSMEncoder1(void);
+
+  //Returns the current number of encoder counts
+  long getCounts();
+
+  //Returns the current number of encoder counts and resets the counts to 0
+  long getCountsAndReset();
+
+  //Returns the velocity of the motor inradians per second
+  long get2CountDeltaT();
+
+//private variables are ones that can't be accessed by main program
+    //note that these variables only exists in the FSMFastTimer class so
+    //duplicate names in other classes do not create a conflict
+private: 
+  bool initialized = false;       //has the system been initialized?
+
+  static void Encoder1AISR();
+  static void Encoder1BISR();
+
+};
+
+/*!
+ @brief  This class impliments a quadrature based encoder attached to the Motor2 connector
+
+The FSMEncoder2 class supports a quadrature based encoder attached to the Motor1 connector.
+The number of counts can be accessed through the getCounts and getCountsAndReset functions.
+The velocity can be calculated using the get2CountDeltaT function that returns the amount of
+time, in microseconds, while the sensor moved two counts.
+*/
+class FSMEncoder2
+{//public functions and variables that can be accessed by user
+public:
+  // Constructor/destructor:
+  //must declare the class itself as public
+  FSMEncoder2(); //which motor control socket is being used
+  ~FSMEncoder2(void);
+
+
+  //Returns the current number of encoder counts
+  long getCounts();
+
+  //Returns the current number of encoder counts and resets the counts to 0
+  long getCountsAndReset();
+
+  //Returns the velocity of the motor inradians per second
+  long get2CountDeltaT();
+
+  //private variables are ones that can't be accessed by main program
+      //note that these variables only exists in the FSMFastTimer class so
+      //duplicate names in other classes do not create a conflict
+private:
+  bool initialized = false;       //has the system been initialized?
+
+  static void Encoder2AISR();
+  static void Encoder2BISR();
+
+
 };
 #endif
