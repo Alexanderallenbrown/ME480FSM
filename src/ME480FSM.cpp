@@ -3,6 +3,9 @@
 #include "Arduino.h"
 #include "ME480FSM.h"
 
+
+
+
 /*!
    @brief   This function runs when you "construct" a rising edge counter
   
@@ -221,3 +224,316 @@ void FSMFastTimer::update(bool enable) {
   elapsed = curTime - startTime;
   TMR = (elapsed >= duration);
 }
+
+
+//Encoder code**********************************************
+
+
+//internal variables for the encoder interrupts
+volatile long encCounts1;
+volatile unsigned long twoCTimeCur1 = 0;
+volatile unsigned long twoCTimePre1 = 0;
+volatile long twoCSpeedDir1 = 0;
+
+#define ENC1_A_PIN   3
+#define ENC1_B_PIN   2
+
+
+//encoder interrupt functions
+static void FSMEncoder1::Encoder1AISR()
+{
+  if (digitalRead(ENC1_A_PIN)) {
+    if (digitalRead(ENC1_B_PIN)) {
+      encCounts1--;
+      twoCSpeedDir1 = -1;
+    }
+    else {
+      encCounts1++;
+      twoCSpeedDir1 = 1;
+    }
+  }
+  else {
+    if (digitalRead(ENC1_B_PIN)) {
+      encCounts1++;
+      twoCSpeedDir1 = 1;
+    }
+    else {
+      encCounts1--;
+      twoCSpeedDir1 = -1;
+    }
+  }
+  twoCTimePre1 = twoCTimeCur1;
+  twoCTimeCur1 = micros();
+}
+
+static void FSMEncoder1::Encoder1BISR()
+{
+  if (digitalRead(ENC1_B_PIN)) {
+    if (digitalRead(ENC1_A_PIN)) {
+      encCounts1++;
+    }
+    else {
+      encCounts1--;
+    }
+  }
+  else {
+    if (digitalRead(ENC1_A_PIN)) {
+      encCounts1--;
+    }
+    else {
+      encCounts1++;
+    }
+  }
+}
+
+
+/*! @brief This is the constructor for the class.
+
+It will initialize the internal variables. This is called automatically 
+when you declare the object and will not have to be call in your program.
+*/
+
+FSMEncoder1::FSMEncoder1() {
+  {
+    if (!initialized) {
+      
+      pinMode(ENC1_A_PIN, INPUT);
+      pinMode(ENC1_B_PIN, INPUT);
+
+      encCounts1 = 0;
+      twoCTimeCur1 = 0;
+      twoCTimePre1 = 0;
+      twoCSpeedDir1 = 0;
+
+      attachInterrupt(digitalPinToInterrupt(ENC1_A_PIN), Encoder1AISR, CHANGE);
+      attachInterrupt(digitalPinToInterrupt(ENC1_B_PIN), Encoder1BISR, CHANGE);
+
+      initialized = true;
+    }
+  }
+}
+
+/*! @brief This is the destructor for the class.
+
+detaches the interrupts
+*/
+FSMEncoder1::~FSMEncoder1()
+{
+  if (initialized) {
+    detachInterrupt(digitalPinToInterrupt(ENC1_A_PIN));
+    detachInterrupt(digitalPinToInterrupt(ENC1_B_PIN));
+  }
+}
+
+/*! @brief Returns the counts from the encoder plugged into Motor 1 without resetting the counts to 0.
+
+The count value is stored as a long integer. Therefore it overflow when the counter
+reaches +-2,147,483,647 counts.
+
+@return The number of encoder counts
+
+*/
+long FSMEncoder1::getCounts()
+{
+  noInterrupts();
+  long counts = encCounts1;
+  interrupts();
+  return counts;
+}
+
+/*! @brief Returns the counts from the encoder plugged into Motor 1 and then resets the count to 0.
+
+The count value is stored as a long integer. Therefore it overflow when the counter
+reaches +-2,147,483,647 counts.
+
+@return The number of encoder counts
+
+*/
+long FSMEncoder1::getCountsAndReset()
+{
+  noInterrupts();
+  long counts = encCounts1;
+  encCounts1 = 0;
+  interrupts();
+  return counts;
+}
+
+/*! @brief Returns the time (in microseconds) for the encoder plugged into Motor 1 to turn 2 counts
+
+The velocity can be determined by measuring the time between two transitions
+from the same encoder (every two counts).<br>
+
+If the function is called before the encouder moves two counts, the function will return a value of 0. 
+This does not affect the accuracy of a later call after the second count has passed. Therefore
+0 valued data points should be simply removed from the data and not averaged into the data.
+
+@return returns the number of microseconds for the encoder to turn 2 counts.
+*/
+long  FSMEncoder1::get2CountDeltaT()
+{
+  noInterrupts();
+  unsigned long timeCurT = twoCTimeCur1;
+  unsigned long timePreT = twoCTimePre1;
+  int speedDir = twoCSpeedDir1;
+  twoCSpeedDir1 = 0;
+  interrupts();
+
+  long twoCountDelta = (timeCurT - timePreT)*speedDir;
+  return twoCountDelta;
+}
+
+
+
+
+
+volatile long encCounts2;
+volatile unsigned long twoCTimeCur2 = 0;
+volatile unsigned long twoCTimePre2 = 0;
+volatile long twoCSpeedDir2 = 0;
+
+#define ENC2_A_PIN   20
+#define ENC2_B_PIN   21
+
+
+static void FSMEncoder2::Encoder2AISR()
+{
+  if (digitalRead(ENC2_A_PIN)) {
+    if (digitalRead(ENC2_B_PIN)) {
+      encCounts2--;
+      twoCSpeedDir2 = -1;
+    }
+    else {
+      encCounts2++;
+      twoCSpeedDir2 = 1;
+    }
+  }
+  else {
+    if (digitalRead(ENC2_B_PIN)) {
+      encCounts2++;
+      twoCSpeedDir2 = 1;
+    }
+    else {
+      encCounts2--;
+      twoCSpeedDir2 = -1;
+    }
+  }
+  twoCTimePre2 = twoCTimeCur2;
+  twoCTimeCur2 = micros();
+}
+
+static void FSMEncoder2::Encoder2BISR()
+{
+  if (digitalRead(ENC2_B_PIN)) {
+    if (digitalRead(ENC2_A_PIN)) {
+      encCounts2++;
+    }
+    else {
+      encCounts2--;
+    }
+  }
+  else {
+    if (digitalRead(ENC2_A_PIN)) {
+      encCounts2--;
+    }
+    else {
+      encCounts2++;
+    }
+  }
+}
+
+/*! @brief This is the constructor for the class.
+
+It will initialize the internal variables. This is called automatically
+when you declare the objectand will not need to be call in your program.
+*/
+
+FSMEncoder2::FSMEncoder2() {
+  {
+    if (!initialized) {
+
+      pinMode(ENC2_A_PIN, INPUT);
+      pinMode(ENC2_B_PIN, INPUT);
+
+      encCounts2 = 0;
+      twoCTimeCur2 = 0;
+      twoCTimePre2 = 0;
+      twoCSpeedDir2 = 0;
+
+      attachInterrupt(digitalPinToInterrupt(ENC2_A_PIN), Encoder2AISR, CHANGE);
+      attachInterrupt(digitalPinToInterrupt(ENC2_B_PIN), Encoder2BISR, CHANGE);
+      
+      initialized = true;
+    }
+  }
+}
+
+/*! @brief This is the destructor for the class.
+
+detaches the interrupts
+*/
+FSMEncoder2::~FSMEncoder2()
+{
+  if (initialized) {
+    detachInterrupt(digitalPinToInterrupt(ENC2_A_PIN));
+    detachInterrupt(digitalPinToInterrupt(ENC2_B_PIN));
+  }
+}
+
+/*! @brief Returns the counts from the encoder plugged into Motor 2 without resetting the counts to 0.
+
+The count value is stored as a long integer. Therefore it overflow when the counter
+reaches +-2,147,483,647 counts.
+
+@return The number of encoder counts
+
+*/
+long FSMEncoder2::getCounts()
+{
+  noInterrupts();
+  long counts = encCounts2;
+  interrupts();
+  return counts;
+}
+
+/*! @brief Returns the counts from the encoder plugged into Motor 2 and then resets the count to 0.
+
+The count value is stored as a long integer. Therefore it overflow when the counter
+reaches +-2,147,483,647 counts.
+
+@return The number of encoder counts
+
+*/
+long FSMEncoder2::getCountsAndReset()
+{
+  noInterrupts();
+  long counts = encCounts2;
+  encCounts2 = 0;
+  interrupts();
+  return counts;
+}
+
+/*! @brief Returns the time (in microseconds) for the encoder plugged into Motor 2 to turn 2 counts
+
+The velocity can be determined by measuring the time between two transitions
+from the same encoder (every two counts).<br>
+
+If the function is called before the encouder moves two counts the function will return a value of 0.
+This does not affect the accuracy of a later call after the second count has passed. Therefore
+0 valued data points should be simply removed from the data and not averaged into the data.
+
+@return returns the number of microseconds for the encoder to turn 2 counts.
+*/
+long  FSMEncoder2::get2CountDeltaT()
+{
+  noInterrupts();
+  unsigned long timeCurT = twoCTimeCur2;
+  unsigned long timePreT = twoCTimePre2;
+  long speedDir = twoCSpeedDir2;
+  twoCSpeedDir2 = 0;
+  interrupts();
+
+  long twoCountDelta = (timeCurT - timePreT)*speedDir;
+  return twoCountDelta;
+}
+
+

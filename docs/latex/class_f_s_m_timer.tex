@@ -1,4 +1,4 @@
-\hypertarget{class_f_s_m_timer}{}\doxysection{F\+S\+M\+Timer Class Reference}
+\hypertarget{class_f_s_m_timer}{}\doxysection{FSMTimer Class Reference}
 \label{class_f_s_m_timer}\index{FSMTimer@{FSMTimer}}
 
 
@@ -7,16 +7,16 @@ This class impliments a millisecond timer.
 
 
 
-{\ttfamily \#include $<$M\+E480\+F\+S\+M.\+h$>$}
+{\ttfamily \#include $<$ME480\+FSM.\+h$>$}
 
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{class_f_s_m_timer_a87dc27cd4e96a1fcfc11f7ac53736abb}{F\+S\+M\+Timer}} (unsigned long \+\_\+duration)
+\mbox{\hyperlink{class_f_s_m_timer_a87dc27cd4e96a1fcfc11f7ac53736abb}{FSMTimer}} (unsigned long \+\_\+duration)
 \begin{DoxyCompactList}\small\item\em This function runs when you \char`\"{}construct\char`\"{} a timer. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{class_f_s_m_timer_a4120ddf1f876f1d6ab307c2480318866}\label{class_f_s_m_timer_a4120ddf1f876f1d6ab307c2480318866}} 
-\mbox{\hyperlink{class_f_s_m_timer_a4120ddf1f876f1d6ab307c2480318866}{$\sim$\+F\+S\+M\+Timer}} (void)
-\begin{DoxyCompactList}\small\item\em Deallocate the \mbox{\hyperlink{class_f_s_m_timer}{F\+S\+M\+Timer}} system object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_f_s_m_timer_a4120ddf1f876f1d6ab307c2480318866}{$\sim$\+FSMTimer}} (void)
+\begin{DoxyCompactList}\small\item\em Deallocate the \mbox{\hyperlink{class_f_s_m_timer}{FSMTimer}} system object. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_f_s_m_timer_a80e52ad54b6ba6be4e47734917a6d3e9}{update}} (bool enable)
 \begin{DoxyCompactList}\small\item\em This function updates the timer based on the enable input. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
@@ -29,21 +29,21 @@ unsigned long \mbox{\hyperlink{class_f_s_m_timer_aa40be2e967cda83eae5bfbd0e8bc48
 unsigned long \mbox{\hyperlink{class_f_s_m_timer_aed1a520bfad06b0b53d5cc424328e7e8}{elapsed}}
 \begin{DoxyCompactList}\small\item\em Elapsed time that the timer has been counting. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{class_f_s_m_timer_a3fe8522ff4a2fae84838310aa2b6a20c}\label{class_f_s_m_timer_a3fe8522ff4a2fae84838310aa2b6a20c}} 
-bool \mbox{\hyperlink{class_f_s_m_timer_a3fe8522ff4a2fae84838310aa2b6a20c}{T\+MR}}
-\begin{DoxyCompactList}\small\item\em State of timing, true if elapsed time is greater than, or equal to, the duration value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+bool \mbox{\hyperlink{class_f_s_m_timer_a3fe8522ff4a2fae84838310aa2b6a20c}{TMR}}
+\begin{DoxyCompactList}\small\item\em Status bit of timer; true if elapsed time is greater than, or equal to, the duration value. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 This class impliments a millisecond timer. 
 
-The \mbox{\hyperlink{class_f_s_m_timer}{F\+S\+M\+Timer}} class impliments a millisecond timer. The duration of the timer is set when the timer object is constructed. If the enable input of the update function is true, the function checks if the elapsed time is equal to, or greater than, the set duration. If the enable input is false, the start\+Time is updated to the current time, reseting the elapsed time to 0. The T\+MR value will return a true if the elapsed time is greater than, or equal to, the set duration. 
+The \mbox{\hyperlink{class_f_s_m_timer}{FSMTimer}} class impliments a millisecond timer. The duration of the timer is set when the timer object is constructed. If the enable input of the update function is true, the function checks if the elapsed time is equal to, or greater than, the set duration. If the enable input is false, the start\+Time is updated to the current time, reseting the elapsed time to 0. The TMR value will return a true if the elapsed time is greater than, or equal to, the set duration. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{class_f_s_m_timer_a87dc27cd4e96a1fcfc11f7ac53736abb}\label{class_f_s_m_timer_a87dc27cd4e96a1fcfc11f7ac53736abb}} 
 \index{FSMTimer@{FSMTimer}!FSMTimer@{FSMTimer}}
 \index{FSMTimer@{FSMTimer}!FSMTimer@{FSMTimer}}
 \doxysubsubsection{\texorpdfstring{FSMTimer()}{FSMTimer()}}
-{\footnotesize\ttfamily F\+S\+M\+Timer\+::\+F\+S\+M\+Timer (\begin{DoxyParamCaption}\item[{unsigned long}]{\+\_\+duration }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily FSMTimer\+::\+FSMTimer (\begin{DoxyParamCaption}\item[{unsigned long}]{\+\_\+duration }\end{DoxyParamCaption})}
 
 
 
@@ -55,7 +55,7 @@ At construction\+:
 
 \item the timer is in the waiting (non-\/timing) state
 \end{DoxyItemize}\begin{DoxyReturn}{Returns}
-\mbox{\hyperlink{class_f_s_m_timer}{F\+S\+M\+Timer}} object. 
+\mbox{\hyperlink{class_f_s_m_timer}{FSMTimer}} object. 
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
@@ -69,13 +69,13 @@ At construction\+:
 \index{FSMTimer@{FSMTimer}!update@{update}}
 \index{update@{update}!FSMTimer@{FSMTimer}}
 \doxysubsubsection{\texorpdfstring{update()}{update()}}
-{\footnotesize\ttfamily void F\+S\+M\+Timer\+::update (\begin{DoxyParamCaption}\item[{bool}]{enable }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void FSMTimer\+::update (\begin{DoxyParamCaption}\item[{bool}]{enable }\end{DoxyParamCaption})}
 
 
 
 This function updates the timer based on the enable input. 
 
-If enable is true the timer checks to see if the elapsed time is greater than the preset duration and sets the T\+MR value~\newline
+If enable is true the timer checks to see if the elapsed time is greater than the preset duration and sets the TMR value~\newline
  If enable is false the timer resets
 
 \begin{DoxyReturn}{Returns}
@@ -90,5 +90,5 @@ nothing
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-src/\mbox{\hyperlink{_m_e480_f_s_m_8h}{M\+E480\+F\+S\+M.\+h}}\item 
-src/\mbox{\hyperlink{_m_e480_f_s_m_8cpp}{M\+E480\+F\+S\+M.\+cpp}}\end{DoxyCompactItemize}
+src/\mbox{\hyperlink{_m_e480_f_s_m_8h}{ME480\+FSM.\+h}}\item 
+src/\mbox{\hyperlink{_m_e480_f_s_m_8cpp}{ME480\+FSM.\+cpp}}\end{DoxyCompactItemize}
