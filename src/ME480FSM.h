@@ -15,7 +15,7 @@
  *
  * @section author Author
  *
- * Writen by Alex Brown.
+ * Writen by Alex Brown and Jeffrey Helm.
  *
  * @section license License
  *
@@ -146,8 +146,6 @@ private:
 
 The FSMEncoder1 class supports a quadrature based encoder attached to the Motor1 connector.
 The number of counts can be accessed through the getCounts and getCountsAndReset functions.
-The velocity can be calculated using the get2CountDeltaT function that returns the amount of 
-time, in microseconds, while the sensor moved two counts. 
 */
 class FSMEncoder1
 {//public functions and variables that can be accessed by user
@@ -162,9 +160,6 @@ public:
 
   //Returns the current number of encoder counts and resets the counts to 0
   long getCountsAndReset();
-
-  //Returns the velocity of the motor inradians per second
-  long get2CountDeltaT();
 
 //private variables are ones that can't be accessed by main program
     //note that these variables only exists in the FSMFastTimer class so
@@ -199,9 +194,6 @@ public:
 
   //Returns the current number of encoder counts and resets the counts to 0
   long getCountsAndReset();
-
-  //Returns the velocity of the motor inradians per second
-  long get2CountDeltaT();
 
   //private variables are ones that can't be accessed by main program
       //note that these variables only exists in the FSMFastTimer class so
