@@ -504,7 +504,7 @@ FSMMotor2::FSMMotor2() {
       pinMode(MOTOR2_IN1_PIN, OUTPUT);
       pinMode(MOTOR2_IN2_PIN, OUTPUT);
 
-      curVoltage = 0.0;
+      curVoltageCounts = 0;
       analogWrite(MOTOR2_IN1_PIN, 255);
       analogWrite(MOTOR2_IN2_PIN, 255);
 
@@ -528,7 +528,7 @@ FSMMotor2::~FSMMotor2() {
       pinMode(MOTOR2_IN1_PIN, INPUT);
       pinMode(MOTOR2_IN2_PIN, INPUT);
 
-      curVoltage = 0.0;
+      curVoltageCounts = 0;
       initialized = false;
     }
   }
