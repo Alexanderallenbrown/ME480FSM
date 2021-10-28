@@ -488,6 +488,9 @@ long FSMEncoder2::getCountsAndReset()
   return counts;
 }
 
+#define MOTOR2_IN1_PIN 6
+#define MOTOR2_IN2_PIN 8
+
 /*! @brief This is the constructor for the class.
 
 It will initialize the output pins and set the motor to 0 volts. This is called automatically
