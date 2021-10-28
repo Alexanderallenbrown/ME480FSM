@@ -230,10 +230,10 @@ public:
   ~FSMMotor2(void);
 
   //set the voltage of the motor 
-  setVoltage(int voltage);
+  setVoltage(int voltageCounts);
 
   //variables that can be queried by main program:
-  int curVoltage; ///<current voltage set for the motor
+  int curVoltageCounts; ///<current voltage set for the motor
 
   //private variables are ones that can't be accessed by main program
       //note that these variables only exists in the FSMFastTimer class so

@@ -542,15 +542,15 @@ FSMMotor2::~FSMMotor2() {
   Positive values will turn the motor in the positive encoder direction, negative 
   values will turn the motor in the negative encoder direction.
 */
-FSMMotor2::setVoltage(int voltage) {
+FSMMotor2::setVoltage(int voltageCounts) {
   {
-    if (voltage > 255) voltage = 255;
-    if (voltage < -255) voltage = -255;
+    if (voltageCounts > 255) voltageCounts = 255;
+    if (voltageCounts < -255) voltageCounts = -255;
 
-    curVoltage = voltage;
-    int pwmVal = 255-abs(voltage);
+    curVoltageCounts = voltageCounts;
+    int pwmVal = 255-abs(voltageCounts);
 
-    if (voltage > 0) {
+    if (voltageCounts > 0) {
       analogWrite(MOTOR2_IN1_PIN, 255);
       analogWrite(MOTOR2_IN2_PIN, pwmVal);
     }
