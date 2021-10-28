@@ -2,12 +2,12 @@
 /*!
  * @file ME480FSM.h
  *
- * @mainpage ME480 Library to help with the implementation of Finite State Machines
+ * @mainpage ME480 Library to help with the implementation of Finite State Machines and Feedback Control
  *
  * @section intro_sec Introduction
  *
  * This is the documentation for the ME480FSM library developed for ME480L controls laboratory. 
- * The library contains routines that help with the implimentation of finite state machines 
+ * The library contains routines that help with the implementation of finite state machines and feedback controllers 
  * programmed on Arduino processors. The functions in the classes are built in the 
  * four block format adopted by the course. The code is available in the 
  * Arduino/Libraries/ME480FSM/src directory. The *.cpp files contain the actual code and the 
