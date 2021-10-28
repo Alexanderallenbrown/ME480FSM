@@ -230,7 +230,7 @@ public:
   ~FSMMotor2(void);
 
   //set the voltage of the motor 
-  setVoltage(float voltage);
+  setVoltage(int voltage);
 
   //variables that can be queried by main program:
   int curVoltage; ///<current voltage set for the motor
