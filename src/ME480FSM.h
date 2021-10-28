@@ -207,3 +207,40 @@ private:
 
 };
 #endif
+
+
+
+/*!
+ @brief  This class impliments the motor when it is connected to motor connector 2. 
+
+The FSMMotor2 class supports running the motor when it is connected to the motor 2 connector and 
+run with the DRV8837 motor driver. This class uses the a pin configuration that minimizes non-linearities 
+in the driver.
+The voltage of the motor can be set between -255 and 255 counts, corresponding with duty cycles between 0 and 100% in each direction. Positive voltages turn the motor
+in the same direction as positive encoder counts.
+The current motor voltage can be accessed through the curVoltage variable.
+
+This class does not control the relay on the MicroRig board.
+*/
+class FSMMotor2
+{//public functions and variables that can be accessed by user
+public:
+  // Constructor/destructor:
+  //must declare the class itself as public
+  FSMMotor2(); //used for motor socket #2
+  ~FSMMotor2(void);
+
+  //set the voltage of the motor 
+  setVoltage(float voltage);
+
+  //variables that can be queried by main program:
+  int curVoltage; ///<current voltage set for the motor
+
+  //private variables are ones that can't be accessed by main program
+      //note that these variables only exists in the FSMFastTimer class so
+      //duplicate names in other classes do not create a conflict
+private:
+  bool initialized = false;       //has the system been initialized?
+
+};
+#endif

@@ -488,4 +488,74 @@ long FSMEncoder2::getCountsAndReset()
   return counts;
 }
 
+/*! @brief This is the constructor for the class.
+
+It will initialize the output pins and set the motor to 0 volts. This is called automatically
+when you declare the objectand will not need to be call in your program. You should not set the
+pinMode of the motor pins in your program.
+*/
+FSMMotor2::FSMMotor2() {
+  {
+    if (!initialized) {
+
+      pinMode(MOTOR2_IN1_PIN, OUTPUT);
+      pinMode(MOTOR2_IN2_PIN, OUTPUT);
+
+      curVoltage = 0.0;
+      analogWrite(MOTOR2_IN1_PIN, 255);
+      analogWrite(MOTOR2_IN2_PIN, 255);
+
+      initialized = true;
+    }
+  }
+}
+
+
+/*! @brief This is the destructor for the class.
+
+It will return the output pins for motor 2 (6 & 8) to INPUT mode.
+*/
+FSMMotor2::~FSMMotor2() {
+  {
+    if (initialized) {
+
+      analogWrite(MOTOR2_IN1_PIN, 0);
+      analogWrite(MOTOR2_IN2_PIN, 0);
+
+      pinMode(MOTOR2_IN1_PIN, INPUT);
+      pinMode(MOTOR2_IN2_PIN, INPUT);
+
+      curVoltage = 0.0;
+      initialized = false;
+    }
+  }
+}
+
+/*! @brief This function sets the voltage sent to the motor.
+
+  The function accepts values between -255 and 255 counts corresponding with 0-100% duty cycle in the positive and negative directions. Any values lower
+  than -255 counts will be set to -255 counts and values higher than 255 counts will
+  be set to 255 counts. 
+  Positive values will turn the motor in the positive encoder direction, negative 
+  values will turn the motor in the negative encoder direction.
+*/
+FSMMotor2::setVoltage(int voltage) {
+  {
+    if (voltage > 255) voltage = 255;
+    if (voltage < -255) voltage = -255;
+
+    curVoltage = voltage;
+    int pwmVal = 255-abs(voltage);
+
+    if (voltage > 0) {
+      analogWrite(MOTOR2_IN1_PIN, 255);
+      analogWrite(MOTOR2_IN2_PIN, pwmVal);
+    }
+    else {
+      analogWrite(MOTOR2_IN1_PIN, pwmVal);
+      analogWrite(MOTOR2_IN2_PIN, 255);
+    }
+  }
+}
+
 
